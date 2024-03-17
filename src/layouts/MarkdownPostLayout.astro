@@ -1,0 +1,15 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Tags from "../components/Tags.astro";
+
+const { frontmatter } = Astro.props;
+
+const pubDateString = new Date(frontmatter.pubDate);
+const pubDate = pubDateString.toDateString();
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+    <Tags tags={frontmatter.tags} />
+    <p>{pubDate}</p>
+    <slot />
+</BaseLayout>

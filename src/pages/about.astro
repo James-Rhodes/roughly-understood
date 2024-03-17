@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import HenryImage from "../assets/Henry_On_Grass.jpg";
+---
+
+<BaseLayout pageTitle="About">
+	<p>
+		My name is James and I am writing a blog where I can show the process I
+		go through, from not understanding something, to having a rough
+		understanding. The hopes is that writing it down not only helps me to
+		remember it better but also will allow you, my dear reader, to be able
+		to look at a topic and say "Yeah, I think that is Roughly Understood".
+	</p>
+
+	<h2>The Process</h2>
+	<p>
+		As I read through things and try to gain a better understanding, I often
+		find that I need to be able to see the concept clearly, from end to end,
+		in my mind before I can explain it or even understand it. The idea is
+		that each of the blog posts on this site will contain the ways of
+		thinking that made a concept "click" for me, in the hopes that your mind
+		also benefits from this new perspective.
+	</p>
+	<p>
+		I also really enjoy creative coding (<a href="https://natureofcode.com/"
+			>Daniel Shiffman</a
+		> you are my hero) so when convenient or at all possible, I intend to include
+		visualisations of various topics in the hopes that it aids in the visualisation
+		of the concept. On the programming side of things, I really enjoy using technology
+		such as <a href="https://www.rust-lang.org/">Rust</a> (<a
+			href="https://bevyengine.org/">Bevy</a
+		>), <a href="https://p5js.org/">p5.js</a>
+		and <a href="https://www.raylib.com/">Raylib</a>
+		to create visualisations usually in a html canvas. The Rust and Raylib side
+		of things has to be compiled to Web Assembly before they can be displayed
+		in the browser which can also sometimes result in larger binaries (.wasm
+		files) which could potentially lead to long load times. If this gets unwieldy
+		then I will address it... Somehow. The blog you are reading this on is pulled
+		together using <a href="https://astro.build/">Astro</a>, a great static
+		site generating framework that allows me just the right amount of
+		control (without giving me too much freedom to over do it and write a
+		full blown server).
+	</p>
+	<h2>A Bit About Me</h2>
+	<p>
+		My name is James and I like to code and explore ideas. I obtained my
+		Bachelors Degree in Electronic and Electrical Engineering in 2022. After
+		working in industry for around 2 years I have recently embarked on an
+		exciting journey of pursuing a PhD. This blog has kind of spawned out of
+		the endless note writing I will be doing over the next 3-4 years of my
+		life.
+	</p>
+	<p>
+		I live in a beautiful part of the world in Australia, and love to walk
+		my dog Henry (here have a picture).
+	</p>
+
+	<div style="display: flex; justify-content:center;">
+		<Image
+			src={HenryImage}
+			alt="A beagle, who is very beatiful"
+			width="300"
+		/>
+	</div>
+</BaseLayout>
