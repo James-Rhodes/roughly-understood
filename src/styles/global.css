@@ -1,3 +1,7 @@
+html,
+body {
+  font-size: 1.2rem;
+}
 /* nav styles */
 .hamburger {
   padding-right: 20px;
@@ -65,7 +69,7 @@ html.dark {
 }
 
 a {
-  color: #5ca3eb;
+  color: #145ca3;
 }
 .dark a {
   color: #bfdbf7;
