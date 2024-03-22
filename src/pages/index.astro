@@ -7,7 +7,22 @@ const allPosts = await Astro.glob("../pages/posts/*.md");
 ---
 
 <BaseLayout title="Blog">
-	<p>This is where I will post about my journey learning Astro.</p>
+	<p>
+		Welcome to Roughly Understood! My name is James and I am writing blog
+		posts on various topics from programming to physics to electrical
+		engineering.
+	</p>
+
+	<p>
+		People tend to over-estimate their knowledge on a topic. My goal here is
+		to show that every understanding of a topic is a rough understanding.
+		There is always another layer deeper we can go. I don't claim to be an
+		expert on any of these topics. However, I do wish to write about them
+		with the hopes that our rough understanding can become a little closer
+		to what is really going on. Potentially looking at the problem from new
+		and exciting perspectives.
+	</p>
+	<h2>Posts</h2>
 	<ul>
 		{
 			allPosts.map((post) => (
