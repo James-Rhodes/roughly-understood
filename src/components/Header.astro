@@ -6,8 +6,31 @@ import ThemeIcon from "./ThemeIcon.astro";
 
 <header>
     <nav>
-        <Hamburger />
+        <div class="flex m-6">
+            <Hamburger />
+            <h1 class="text-5xl main-header">Roughly Understood</h1>
+            <Navigation />
+        </div>
         <ThemeIcon />
-        <Navigation />
     </nav>
 </header>
+
+<style>
+    header {
+        background-color: #1f7a8c;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    div {
+        margin: 1.5rem;
+        display: flex;
+    }
+    h1 {
+        color: #fff;
+    }
+</style>
