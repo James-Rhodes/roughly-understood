@@ -1,7 +1,47 @@
 ---
-let { url, title } = Astro.props;
+import Tags from "../components/Tags.astro";
+let { url, title, description, pubDate, tags } = Astro.props;
+const pubDateString = new Date(pubDate);
+pubDate = pubDateString.toDateString();
 ---
 
-<li>
-    <a href={url}>{title}</a>
-</li>
+<div class="border-2 border-solid p-1 px-5 my-3" id="post-container">
+    <a href={url} id="unhighlighted">
+        <h3>{title}</h3>
+    </a>
+    <div class="flex flex-wrap gap-x-5">
+        <div>{pubDate}</div>
+        <div>
+            <Tags tags={tags} inLine />
+        </div>
+    </div>
+    <div class="mt-5">
+        <p>{description}</p>
+    </div>
+    <a href={url} id="unhighlighted">
+        <button class="p-2 rounded-xl bg-green mb-1" id="read-more"
+            >Read more</button
+        >
+    </a>
+</div>
+
+<style>
+    a {
+        color: unset;
+    }
+    a.dark {
+        color: unset;
+    }
+    h3 {
+        margin-bottom: 0;
+    }
+
+    #unhighlighted {
+        color: unset;
+    }
+
+    #read-more {
+        background: #1f7a8c;
+        color: white;
+    }
+</style>

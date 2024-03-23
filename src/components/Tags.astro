@@ -1,32 +1,30 @@
 ---
-const { tags } = Astro.props;
+let { tags, inLine } = Astro.props;
+
+if (!inLine) {
+    tags = tags.sort(); // consistent order for list style
+}
 ---
 
-<div class="tags">
-    {
-        tags.map((tag: string) => (
-            <p class="tag">
-                <a href={`/tags/${tag}`}>{tag}</a>
-            </p>
+{
+    inLine ? (
+        tags.map((tag: string, idx: number) => (
+            <span>
+                <a class="underline" href={`/tags/${tag}`}>
+                    {tag}
+                </a>
+                {idx !== tags.length - 1 ? <span> &#x2022 </span> : ""}
+            </span>
         ))
-    }
-</div>
-<style>
-    a {
-        color: #00539f;
-    }
-
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .tag {
-        margin: 0.25em;
-        border: dotted 1px #a1a1a1;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        font-size: 1.15em;
-        background-color: #f8fcfd;
-    }
-</style>
+    ) : (
+        <div>
+            {tags.map((tag: string) => (
+                <div>
+                    <a class="underline" href={`/tags/${tag}`}>
+                        {tag}
+                    </a>
+                </div>
+            ))}
+        </div>
+    )
+}
