@@ -9,7 +9,9 @@ const pubDate = pubDateString.toDateString();
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-    <Tags tags={frontmatter.tags} />
-    <p>{pubDate}</p>
+    <div class="mb-10">
+        <div>{pubDate}</div>
+        <Tags tags={frontmatter.tags} inLine />
+    </div>
     <slot />
 </BaseLayout>
