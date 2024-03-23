@@ -9,11 +9,12 @@ body {
 }
 
 .hamburger .line {
+  border-radius: 20%;
   display: block;
   width: 40px;
   height: 5px;
   margin-bottom: 10px;
-  background-color: #ffa62b;
+  background-color: white;
 }
 
 .nav-links {
@@ -26,7 +27,8 @@ body {
 }
 
 .nav-links a {
-  display: block;
+  display: flex;
+  flex-wrap: nowrap;
   text-align: center;
   padding: 10px 0;
   text-decoration: none;
@@ -45,24 +47,6 @@ a:focus {
   display: unset;
 }
 
-@media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: block;
-    position: static;
-    width: auto;
-    background: none;
-  }
-
-  .nav-links a {
-    display: inline-block;
-    padding: 15px 20px;
-  }
-
-  .hamburger {
-    display: none;
-  }
-}
 html.dark {
   background-color: #022b3a;
   color: #fff;
@@ -93,32 +77,88 @@ body {
   flex-direction: column;
 }
 
+.main-header {
+  font-size: 2rem /* 48px */;
+  line-height: 1;
+  color: white;
+}
 h1:not(.main-header) {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   line-height: 2.5rem;
   font-weight: 700;
 }
 h2 {
-  font-size: 1.7rem;
-  line-height: 1.75rem;
+  font-size: 1.5rem;
+  line-height: 1rem;
   font-weight: 700;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }
 
 h3 {
-  font-size: 1.5rem;
-  line-height: 1.75rem;
+  font-size: 1.3rem;
+  line-height: 1rem;
   font-weight: 500;
-  margin: 1.2rem 0;
+  margin: 1rem 0;
 }
 
 h4 {
   font-size: 1.3rem;
-  line-height: 1.5rem;
+  line-height: 1rem;
   font-weight: 400;
   margin: 1rem 0;
 }
 
 p {
   margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 780px) {
+  .nav-links {
+    margin-left: 2rem;
+    display: flex;
+    position: static;
+    width: auto;
+    background: none;
+  }
+
+  .nav-links a {
+    display: inline-block;
+    padding: 15px 20px;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .main-header {
+    font-size: 3rem /* 48px */;
+    line-height: 1;
+    color: white;
+  }
+
+  h1:not(.main-header) {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 1.7rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    margin: 1.5rem 0;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    margin: 1.2rem 0;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    margin: 1rem 0;
+  }
 }

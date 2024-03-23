@@ -6,9 +6,9 @@ import ThemeIcon from "./ThemeIcon.astro";
 
 <header>
     <nav>
-        <div class="flex m-6">
+        <div class="flex m-6 items-center flex-grow">
             <Hamburger />
-            <h1 class="text-5xl main-header">Roughly Understood</h1>
+            <h1 class="main-header">Roughly Understood</h1>
             <Navigation />
         </div>
         <ThemeIcon />
@@ -24,13 +24,5 @@ import ThemeIcon from "./ThemeIcon.astro";
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    div {
-        margin: 1.5rem;
-        display: flex;
-    }
-    h1 {
-        color: #fff;
     }
 </style>
