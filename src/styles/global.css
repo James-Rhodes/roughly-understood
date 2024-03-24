@@ -112,6 +112,15 @@ p {
   margin-bottom: 1rem;
 }
 
+ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
 @media screen and (min-width: 780px) {
   html,
   body {
