@@ -73,7 +73,8 @@ due to the Doppler effect. I have made a small animation that shows what I am
 referring to below. Imagine that the yellow triangle is a sound transmitter,
 and the red is a receiver (your ear) moving towards the sound source, away from
 it, or staying still. The red receiver plots a point inside it every time it
-hits a sound "particle".
+hits a sound "particle". (The code that created the Doppler effect animation
+can be found [here](https://github.com/James-Rhodes/doppl-rs))
 
 <style>
     canvas {

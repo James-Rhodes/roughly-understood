@@ -7,13 +7,13 @@ let allPosts = await Astro.glob("../pages/posts/*.md");
 allPosts = allPosts.sort((a, b) => {
 	let dateA = new Date(a.frontmatter.pubDate);
 	let dateB = new Date(b.frontmatter.pubDate);
-		if(dateA < dateB) {
-			return 1;
-		}else if (dateA == dateB){
-			return 0;
-		}
-		return -1;
-})
+	if (dateA < dateB) {
+		return 1;
+	} else if (dateA == dateB) {
+		return 0;
+	}
+	return -1;
+});
 ---
 
 <BaseLayout>
@@ -31,6 +31,15 @@ allPosts = allPosts.sort((a, b) => {
 		with the hopes that our rough understanding can become a little closer
 		to what is really going on. Potentially looking at the problem from new
 		and exciting perspectives.
+	</p>
+
+	<p>
+		I don't claim to be an expert in everything in all of my posts so if you
+		find something that you think could be written more clearly, or
+		something that is flat out wrong. Please feel free to open an issue on
+		this blogs <a href="https://github.com/James-Rhodes/roughly-understood"
+			>GitHub page</a
+		>.
 	</p>
 	<h2>Posts</h2>
 	<div class="flex flex-col">
