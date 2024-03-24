@@ -115,6 +115,8 @@ can be found [here](https://github.com/James-Rhodes/doppl-rs))
 
 <canvas id="doppl-rs" width="366" height="206" tabindex="0" data-raw-handle="1" alt="An animation of the Doppler Effect" > </canvas>
 
+To replay the animation you can hit 'r' on your keyboard, otherwise it will loop every 10 seconds.
+
 Notice that the sound never actually changes
 frequency, it is purely the observer who records a change in frequency, either
 higher pitch when travelling towards the transmitter or lower pitch when
