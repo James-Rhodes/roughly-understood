@@ -3,7 +3,7 @@ import BlogPost from "../components/BlogPost.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/global.css";
 
-let allPosts = await Astro.glob("../pages/posts/*.md");
+let allPosts = await Astro.glob("../pages/posts/*.md*");
 allPosts = allPosts.sort((a, b) => {
 	let dateA = new Date(a.frontmatter.pubDate);
 	let dateB = new Date(b.frontmatter.pubDate);
