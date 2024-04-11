@@ -101,7 +101,7 @@ can be found [here](https://github.com/James-Rhodes/doppl-rs))
 </style>
 <script type="module">
     import init from "/dopplin_around/doppl-rs.js";
-
+// TODO: Replace this with just a gif. 3MB is way too excessive for this
     init().catch((error) => {
     if (
         !error.message.startsWith(
