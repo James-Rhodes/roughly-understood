@@ -32,9 +32,11 @@ posts = posts.sort((a, b) => {
 	}
 	return -1;
 });
+
+const description = `All of the articles on Roughly Understood that use the tag "${tag}".`
 ---
 
-<BaseLayout pageTitle={tag} titleMargin>
+<BaseLayout pageTitle={tag} titleMargin description={description}>
 	<p>Posts tagged with {tag}</p>
 	<ul>
 		{
