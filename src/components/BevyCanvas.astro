@@ -20,6 +20,11 @@ const { id, script_path, alt } = Astro.props;
         constructor() {
             super();
 
+            let canvas = document.getElementById(this.dataset.id);
+            canvas.addEventListener("click", () => {
+                canvas.focus();
+            });
+
             (async () => {
                 const { default: init } = await import(
                     /* @vite-ignore */
