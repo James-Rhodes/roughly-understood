@@ -12,7 +12,6 @@ with the hopes that our rough understanding can become a little closer
 to what is really going on. Potentially looking at the problem from new
 and exciting perspectives.
 
-I don't claim to be an expert in everything in all of my posts so if you
-find something that you think could be written more clearly, or
-something that is flat out wrong. Please feel free to open an issue on
+If you find something on this site that you think could be written more
+clearly, or something that is flat out wrong. Please feel free to open an issue on
 this blogs GitHub Page.
