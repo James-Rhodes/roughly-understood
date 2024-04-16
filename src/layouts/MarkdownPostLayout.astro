@@ -1,17 +1,21 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import Tags from "../components/Tags.astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
-const { frontmatter } = Astro.props;
+const { frontmatter, headings } = Astro.props;
 
 const pubDateString = new Date(frontmatter.pubDate);
 const pubDate = pubDateString.toDateString();
 ---
 
 <BaseLayout pageTitle={frontmatter.title} description={frontmatter.description}>
-    <div class="mb-10">
+    <div>
         <div>{pubDate}</div>
         <Tags tags={frontmatter.tags} inLine />
     </div>
-    <slot />
+    <TableOfContents headings={headings} />
+    <article>
+        <slot />
+    </article>
 </BaseLayout>
