@@ -59,6 +59,13 @@ a {
   color: #bfdbf7;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+.dark a:hover {
+  text-decoration: underline;
+}
+
 .nav-links a {
   color: #fff;
 }
@@ -121,6 +128,11 @@ ol {
   list-style-type: decimal;
   list-style-position: inside;
 }
+
+li > ul {
+  padding-left: 25px;
+}
+
 @media screen and (min-width: 780px) {
   html,
   body {
