@@ -5,7 +5,6 @@ pubDate: 2024-03-23
 description: "The Doppler effect. What is it? Why should we care? and why cars go VroooOOOmm. There is also a fun animation that gives, I believe, a fairly intuitive understanding of why the Doppler effect occurs."
 tags: ["physics", "visualisation", "fundamentals"]
 ---
-import BevyCanvas from "../../components/BevyCanvas.astro"
 
 The Doppler effect. What is it really? Well you can thank our friend Doppler
 for the classic "VroooOOOmm" noise a car makes as it drives passed you. Where the
@@ -77,7 +76,44 @@ it, or staying still. The red receiver plots a point inside it every time it
 hits a sound "particle". (The code that created the Doppler effect animation
 can be found [here](https://github.com/James-Rhodes/doppl-rs))
 
-<BevyCanvas id="doppl-rs" script_path="../assets/dopplin-around/doppl-rs.js" alt="An animation of the Doppler Effect"/>
+<style>
+    canvas {
+        color: #ececec;
+        color-scheme: dark;
+        font-family: "Fira Sans", sans-serif;
+        font-size: 0.875rem;
+        --rem: 16;
+        --header-height: 60px;
+        --scroll-padding-top: calc(var(--header-height) + 16px);
+        --container-padding: 8px;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        outline: none;
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 10px;
+        background: #2b2c2f;
+        min-width: 180px;
+        min-height: 120px;
+        cursor: auto;
+        aspect-ratio: 1.77778 / 1;
+    }
+</style>
+<script type="module">
+    import init from "/dopplin-around/doppl-rs.js";
+    init().catch((error) => {
+    if (
+        !error.message.startsWith(
+        "Using exceptions for control flow, don't mind me. This isn't actually an error!",
+        )
+    ) {
+        throw error;
+    }
+    });
+</script>
+
+<canvas id="doppl-rs" width="366" height="206" tabindex="0" data-raw-handle="1" alt="An animation of the Doppler Effect" > </canvas>
+
 To replay the animation you can hit ‘r’ on your keyboard, otherwise it will loop every 10 seconds.
 <br/>
 Notice that the sound never actually changes
@@ -116,7 +152,8 @@ Some examples of places where the Doppler effect is used include:
 - Police speed radar
 - Meteorological measurements (storm movements)
 - The VroooOOOmm sound a car makes
-<br/>
+  <br/>
+
 ---
 
 <p style = "font-size: 1.5rem; line-height: 1.75rem; font-weight: 500; margin: 1.2rem 0;">Thanks so much for your time and I hope that you enjoyed!</p>
