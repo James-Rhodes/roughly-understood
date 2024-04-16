@@ -1,5 +1,10 @@
 ---
-const { id, script_path, alt } = Astro.props;
+let { id, script_path, alt } = Astro.props;
+
+if (import.meta.env.DEV) {
+    // This feels like a gross work around but oh well
+    script_path = "/public" + script_path;
+}
 ---
 
 <!-- Store the message prop as a data attribute. -->
