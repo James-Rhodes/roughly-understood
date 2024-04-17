@@ -1,0 +1,68 @@
+---
+let { id, script_path, wasm_path, alt } = Astro.props;
+if (import.meta.env.DEV) {
+    // This feels like a gross work around but oh well
+    script_path = "/public" + script_path;
+    wasm_path = "/public" + wasm_path;
+}
+---
+
+<!-- Store the message prop as a data attribute. -->
+<mquad-canvas
+    load
+    data-id={id}
+    data-script_path={script_path}
+    data-wasm_path={wasm_path}
+>
+    <canvas
+        id={id}
+        width="366"
+        height="206"
+        tabindex="0"
+        data-raw-handle="1"
+        alt={alt}
+    >
+    </canvas>
+</mquad-canvas>
+
+<script>
+    class MacroquadCanvas extends HTMLElement {
+        constructor() {
+            super();
+
+            (async () => {
+                const lib = await import(
+                    /* @vite-ignore */ this.dataset.script_path
+                );
+
+                lib.load(this.dataset.wasm_path);
+            })();
+        }
+    }
+
+    customElements.define("mquad-canvas", MacroquadCanvas);
+</script>
+
+<style>
+    canvas {
+        color: #ececec;
+        color-scheme: dark;
+        font-family: "Fira Sans", sans-serif;
+        font-size: 0.875rem;
+        --rem: 16;
+        --header-height: 60px;
+        --scroll-padding-top: calc(var(--header-height) + 16px);
+        --container-padding: 8px;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        outline: none;
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 10px;
+        background: #2b2c2f;
+        min-width: 180px;
+        min-height: 120px;
+        cursor: auto;
+        aspect-ratio: 1.77778 / 1;
+    }
+</style>
