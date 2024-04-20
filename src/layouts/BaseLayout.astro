@@ -2,7 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-const { pageTitle, titleMargin, description } = Astro.props;
+const { pageTitle, titleMargin, description, noHeading } = Astro.props;
 
 let titleClasses = "text-4xl font-bold";
 if (titleMargin) {
@@ -25,7 +25,7 @@ if (titleMargin) {
         <Header />
         <div class="flex justify-center m-10">
             <div class="max-w-5xl flex-grow">
-                <h1 class={titleClasses}>{pageTitle}</h1>
+                {!noHeading && <h1 class={titleClasses}>{pageTitle}</h1>}
                 <slot />
             </div>
         </div>
