@@ -1,13 +1,476 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
 title: "Foray Into Fourier"
-pubDate: 2024-04-11
-description: "TODO"
+pubDate: 2024-04-27
+description: "The Fourier Transform. What is it and how does it work? Today we dive particularly deep into some of the maths and intuition behind one of the most useful algorithms of all time. Bonus, at the end of this article we draw my dog Henry with maths."
 tags: ["maths", "visualisation", "fundamentals"]
 ---
 import MacroquadCanvas from '../../components/MacroquadCanvas.astro';
 
-this is some content
+Buckle in everyone, today we are exploring some maths. Now before you
+immediately exit this blog, I want you to hang around, because todays topics is
+possibly one of the most important mathematical concepts to be thought up in
+the last 200 years. Today we are going to try and gain an intuitive
+understanding for what the Fourier Transform is and how it works.
 
-<MacroquadCanvas id="macroquad_template" script_path="/foray-into-fourier/mq_js_bundle.js" wasm_path="/foray-into-fourier/macroquad_template.wasm"/>
+## What is the Fourier Transform?
+Have you ever watched a music video where some element of the screen moves in
+reaction to the beats or pitches of a song? Something along the lines of 
+<a href="https://youtu.be/lcztWFC95hM?si=gEXMWw0n8dXuzP8I" target="_blank">this
+  really cool music visualizer by BS Media on Youtube</a>.
 
+Well it turns out this is an application of the Fourier Transform. The
+discoverer (inventor?) of the Fourier Transform, Joseph Fourier, was around
+much before any music visualizers and discovered it with maths. Thats right, 
+maths! Maths is the reason we have a lot of nice things in this world and
+the music visualizer is just one of them. 
+
+The Fourier Transform is also incredibly useful in lots of other fields beyond
+music, in fact it is used extensively in electronic circuits, earthquake
+monitoring, wireless communications, noise cancellation and much more.
+
+### Getting Frequie
+So I have justified the uses of the Fourier Transform but we are yet to see what it **actually does**.
+
+It turns out that every signal, whether it be music, wireless data, light or
+anything, can actually be thought of as a number of frequencies added together.
+Joseph Fourier, was the first person to mathematically prove, that not just
+specific signals can be made of frequencies, but actually **all** signals are
+composed of a set of frequencies. For an overview of what I mean by frequency
+feel free to check out [my previous blog](./dopplin-around) on the Doppler
+Effect where I give a brief explanation.
+
+To see an example of what I mean by a signal being made up of a number of
+different frequencies. Try and have a go at building the orange signal below, by
+toggling on or off specific sine waves. All of the different frequencies that
+are turned on are added together to result in the blue wave. So the goal for
+you is to find the frequencies that make the blue wave perfectly overlap the
+white one. These frequencies can be thought of as the frequencies that make up
+the original orange signal.
+
+<MacroquadCanvas id="adding_sines" script_path="/foray-into-fourier/adding-sines/mq_js_bundle.js" wasm_path="/foray-into-fourier/adding-sines/adding_sines.wasm"/>
+
+<br/>
+Now switching on or off different frequencies works but is time consuming. In
+fact, it gets worse, because it turns out that each frequency that a signal is
+made up of, has their own independent amplitudes and phases. Where the
+amplitude is how big/strong the wave/frequency is and the phase moves the wave
+left to right. In the case of a sine wave the formula is: 
+$$
+y = A\sin(2\pi f + \phi)
+$$
+Where $f$ is the frequency, $A$ is the amplitude and $\phi$ is the phase shift.
+You can have a go of playing around with these parameters below.
+
+<MacroquadCanvas id="amplitude_and_phase" script_path="/foray-into-fourier/amplitude-and-phase/mq_js_bundle.js" wasm_path="/foray-into-fourier/amplitude-and-phase/amplitude_and_phase.wasm"/>
+
+As you can probably see, manually trying to decide what frequencies exist in a
+signal along with their respective amplitudes and phases is too much to do
+manually. However, we still want to know this information and use it. So how do
+we calculate this information? Welcome the Fourier Transform:
+
+$$
+\mathcal{F}(f) = \int^{\infin}_{-\infin}f(t)e^{-j2\pi ft} dt 
+$$
+
+This formula will allow us to have any signal $f(t)$ and find out the frequency
+components hidden within that signal. Beyond that we even get the phase and
+amplitude of each frequency.
+
+I know this looks scary but we are going to break down every piece of this
+formula for the rest of this article.
+
+## How Does It Work?
+To discover why the Fourier Transform works, I think it's best we take it in two steps. Firstly we are going to discuss just the form of the equation. Why is the Fourier Transform a formula in the shape of: 
+$$
+\mathcal{F}(f) = \int_{-\infin}^{\infin} f(t)g(t) dt
+$$
+Where $f(t)$ and $g(t)$ are some functions of time (like our sine waves from
+earlier for example).
+
+Secondly we are going to discuss why choosing the function $g(t)$ to be
+$e^{-j2\pi ft}$ is a good and useful idea.
+
+### My Day Dots
+
+#### **One Dimensional Similarity**
+Before we can talk about that huge scary equation I think it's best we think
+about the idea of similarity in maths. For example lets just imagine that we
+have two numbers, $a$ and $b$. How would we measure how similar $a$ is to $b$? What
+does it even mean to be similar?
+
+I guess one way we could think about similarities is their size. If two numers
+are of a similar size then we could say they are similar. For example, 2.9 is
+very similar to 3.0.
+
+Another way we could think about similarity is the sign of the number. If $a$
+is negative and $b$ is positive, then I think it is fair to say that these two
+numbers are not very similar at all. Conversely if $a$ **and** $b$ is negative
+then the two numbers are similar. 
+
+These are just general observations though. What if we wanted a way to _score_
+how similar two numbers are? Maybe with a high similarity having a positive
+score and low similarity having a negative score.
+
+One way to achieve this goal would be to simply multiply the two numbers
+together. When the numbers have the same sign ($+, - $) then we will end up
+with a positive score (remembering that a minus times a minus gives a plus).
+Conversely, if they don't have the same sign then the score will be negative. 
+
+Below I have a made a little animation to demonstrate this idea of similarity,
+you can see that when the numbers are both positive then they are similar. If
+both numbers are negative then they are similar, but if one is positive and the
+other is negative then we end up with poor/low similarity.
+
+<MacroquadCanvas id="one_dim_similarity" script_path="/foray-into-fourier/one-dim-similarity/mq_js_bundle.js" wasm_path="/foray-into-fourier/one-dim-similarity/one_dim_similarity.wasm"/>
+
+#### **Two Dimensional Similarity**
+Okay so we now have a measure of similarity for two numbers but how can we
+extend this? For example if we had two sets of coordinate $a = (x_1, y_1)$ and
+$b = (x_2, y_2)$ then how could we possible tell how similar these coordinates
+are to one another?
+
+You see if we think about those coordinates as vectors (just a fancy word for numbers in a row or column) and rewrote them like this: 
+$$
+a = \begin{bmatrix}
+x_1 \\
+y_1
+\end{bmatrix}
+$$
+$$
+b = \begin{bmatrix}
+x_2 \\
+y_2
+\end{bmatrix}
+$$
+
+We could view this as finding the similarity between single numbers like we did
+previously. However, we just do this twice. For example we could multiply the
+$x$ coordinates to find out how similar the $x$'s are and multiply the $y$
+coordinates to find out how similar they are. Something like this:
+$$
+\text{similarity of }(a, b) = \begin{bmatrix} 
+x_1 \times x_2 \\
+y_1 \times y_2
+\end{bmatrix} = \begin{bmatrix}
+\text{similarity of }x\text{'s}\\
+\text{similarity of }y\text{'s}
+\end{bmatrix}
+$$
+
+So this is looking more promising, however, we have to now just juggle two
+similarity scores. This doesn't gain us anything. What we want instead is a
+single score that measures how similar the two coordinates/vectors are.
+
+One way we could achieve this is by maybe adding the similarity of the $x$'s
+and the similarity of the $y$'s together. That way if the x coordinates are
+very similar but the y coordinates are facing in opposite directions the scores
+of the x and y will cancel each other out. Writing this out in some maths looks like this:
+$$
+\text{similarity of }(a,b) = a \cdot b =
+\begin{bmatrix}x_1\\y_1\end{bmatrix}\cdot\begin{bmatrix}x_2\\y_2\end{bmatrix} = (x_1\times
+x_2) + (y_1\times y_2)
+$$
+
+Some of you may have guessed this already but what we are building above is
+actually known as a dot product (thats why the formula has the little $\cdot$
+in it). The dot product is used widely in physics and maths. As we have
+discovered through playing around with the numbers, the dot product gives us a
+measure of how similar two vectors are. In english you can think of it like
+saying if we drew an arrow from $(0,0)$ to point $a$ and another arrow from
+$(0,0)$ to point $b$, then how much of $a$ is pointing in the same direction as
+$b$. 
+
+Maths and words can be kind of hard to get right so
+I have made a little animation below where you can move the point $a$ around to
+see how similar it is to $b$ calculated the same formula we came up with above.
+
+TODO: 2D similarity animation
+
+#### **N Dimensional Similarity**
+Okay so we can find the similarity for 1D vectors (a single number) and now for
+2D vectors but what about 3D? 4D? 5D? Even N Dimensions?
+
+It turns out this idea generalizes really nicely. Regardless of how many
+dimensions (how big the vectors are) for $a$ and $b$ we can follow the same
+procedure. We multiply the corresponding dimension (ie. the $x$'s multply and
+the $y$'s multiply) and then add up the result.
+
+For example:
+$$
+a \cdot b = \begin{bmatrix}x_1\\y_1\\z_1 \\ \vdots\\ N_1 \end{bmatrix} \cdot
+\begin{bmatrix}x_2\\y_2\\z_2 \\ \vdots\\ N_2 \end{bmatrix} = (x_1 \times x_2) +
+(y_1 \times y_2) + (z_1 \times z_2) + \dots + (N_1 \times N_2) 
+$$
+
+Pretty cool huh? So we just discovered by playing around with some numbers, a
+way to tell how similar two vectors of potentially infinite length are.
+
+#### **Functions as Vectors**
+A function can be thought of as a mapping from one number usually an $x$ value
+or a time $t$ value to another value. This was shown earlier with the sine waves. For example the formula:
+$$
+f(t) = \sin(t) 
+$$
+
+Specifically says for a given value of t (which could be any number you like)
+then compute the function as the sine of that number. Here are a few examples:
+$$
+f(0.1) = \sin(0.1)\\
+f(-0.1) = \sin(-0.1)\\
+f(10) = \sin(10)\\
+f(\infin) = \sin(\infin)
+$$
+If this notation is new to you, you can think of $f(t)$ as the $y$ value of the
+graph. So it's like $y = mx + b$ except we are computing the sine curve and not
+a straight line.
+
+If we take another look at vectors they kind of are doing the same thing. They
+are mapping a dimension/row into a value. Now this is a fancy sounding sentence but
+really what I mean is the following. 
+
+Given the vector:
+$$
+a = \begin{bmatrix}x\\y\\z\\ \vdots\\N\end{bmatrix}
+$$ 
+
+If you "ask" the $a$ vector what it's first row is, it will give you back
+$x$. Similarly, if you "ask" what its second row is, it will give you
+back $y$. This continues all the way until the $N$'th row where it will
+give you back $N$.
+
+A function does the same thing, except instead of having its first, second,
+..., N'th rows, it instead has an infinite number of rows. Where there could be
+a row for 0.1, another row for 0.001, antother for 0.0000001 etc.
+
+So we could actually write out our function like this:
+$$
+f(t) = 
+\begin{bmatrix}f(-\infin) \\ 
+\vdots \\ 
+f(-0.0001) \\ 
+\vdots \\
+f(0) \\ 
+\vdots \\
+f(0.0001) \\ 
+\vdots \\
+f(\infin) \\ 
+\end{bmatrix} = 
+\begin{bmatrix}\sin(-\infin) \\ 
+\vdots \\ 
+\sin(-0.0001) \\ 
+\vdots \\
+\sin(0) \\ 
+\vdots \\
+\sin(0.0001) \\ 
+\vdots \\
+\sin(\infin) \\ 
+\end{bmatrix}
+$$
+
+#### **Why Are You Telling Us This?**
+This raises an important and crucial element of the Fourier Transform. We
+can compute the similarity of two functions in the same way as we do for
+vectors. That is, we can compute the dot product between two functions.
+
+If we think of two functions $f(t)$ and $g(t)$, we can determine how similar
+they are by taking the dot product just like we do for vectors. Written with
+maths this looks something like.
+
+With the functions written as vectors just like before:
+$$
+f(t) = 
+  \begin{bmatrix}f(-\infin) \\ 
+  \vdots \\ 
+  f(-0.0001) \\ 
+  \vdots \\
+  f(0) \\ 
+  \vdots \\
+  f(0.0001) \\ 
+  \vdots \\
+  f(\infin) \\ 
+  \end{bmatrix}
+, g(t) = 
+  \begin{bmatrix}g(-\infin) \\ 
+  \vdots \\ 
+  g(-0.0001) \\ 
+  \vdots \\
+  g(0) \\ 
+  \vdots \\
+  g(0.0001) \\ 
+  \vdots \\
+  g(\infin) \\ 
+  \end{bmatrix}
+$$
+
+Then the dot product of the two functions is:
+$$
+\begin{split}
+f(t) \cdot g(t) = & (f(-\infin)\times g(-\infin)) + \dots \\
+&+ (f(-0.0001)\times g(-0.0001)) + \dots \\
+& + (f(0)\times g(0)) + \dots + (f(0.0001)\times g(0.0001)) \\
+& + \dots + (f(\infin)\times g(\infin))
+\end{split}
+$$
+
+Now unfortunately the long sequence of adding is a little cumbersome. Luckily maths has some handy notation for adding up an infinite amount of numbers. This notation is known as an integral and looks like this:
+$$
+\int^{\infin}_{-\infin} f(t) dt
+$$
+
+This is in effect saying that for every possible value of t (from $-\infin$ to
+$\infin$), compute $f(t)$ and add all of the results together.
+
+So this means out dot product or similarity of two functions can be written as:
+$$
+f(t)\cdot g(t) = \int^{\infin}_{-\infin} f(t)g(t)dt
+$$
+Which in english again, just says that for every single t value, multiply the
+results of $f(t)$ by the result of $g(t)$ and add up all of the results.
+
+For those interested the reason this works is because the dot product is also
+known as the inner product. I don't know much beyond that in terms of pure
+maths definitions but let Google guide you my friend.
+
+
+So bringing all of this back to the Fourier Transform. 
+$$
+\mathcal{F}(f) = \int^{\infin}_{-\infin}f(t)e^{-j2\pi ft} dt 
+$$
+
+You can see from the formula that we are taking a dot product of two functions.
+$f(t)$ and the function $e^{-j2\pi ft}$. So the core idea is that we are
+discovering frequency, phase and amplitude information of our signal $f(t)$ by
+finding out how similar $f(t)$ is to $e^{-j2\pi ft}$.
+
+### e To The Power of What?!
+This one I am going to gloss over a little bit just because this blog is
+getting long enough as it is.
+
+I am mainly going to go over the key elements that we need to know to
+understand why we need $e^{-j2\pi ft}$ in the Fourier Transform equation.
+Perhaps I can write a future article on it a bit more deeply.
+
+The key thing to understand is that this e term comes from Eulers equation: 
+$$
+e^{jt} = \cos(t) + j\sin(t)  
+$$
+
+Where $j$ is a complex number (sometimes written as $i$ but my electrical
+engineer brain wins this battle). So if we expand out the Fourier Transform a bit:
+$$
+e^{-j2\pi ft} = \cos(2\pi ft) + j\sin(2\pi ft) 
+$$
+Where $f$ is the frequency of the waves, $t$ is time and the $2\pi$ term is
+just there to convert the answer into Hertz. Fun fact, this is exactly where
+the famous equation $e^{i\pi} = -1$ comes from.
+
+So in effect the e term of the Fourier Transform is encoding a frequency. The
+fun thing though is that using Eulers equation like this actually gives us the
+ability to compute phase and amplitude components as well.
+
+This is because the magic of Eulers equation and complex numbers in general
+allows for visualizing $e^{-j2\pi ft}$ as a rotating vector on the complex
+plane. An example of this can be seen in the animation below: 
+
+
+<MacroquadCanvas id="rotating_phasor" script_path="/foray-into-fourier/rotating-phasor/mq_js_bundle.js" wasm_path="/foray-into-fourier/rotating-phasor/rotating_phasor.wasm"/>
+
+You can see that the rotating line moves at a speed that matches our frequency
+$f$. Notice that the x coordinate corresponds to the sine wave and the y
+coordinate corresponds to the cosine wave.
+
+Additionally the magnitude information can be gathered from the radius of the
+circle. The phase is simply where on the circle the rotation started from. That
+is instead of starting on the x-axis it could start at a different point on the
+circle.
+
+Apologies again for the hand-wavyness of this explanation but these are the key
+elements needed for the Fourier Transform.
+
+Summary:
+- The term $e^{-j2\pi ft}$ is a function that represents a spinning vector/line with a given frequency, amplitude and phase.
+- The components can be found from complex numbers and Eulers equation
+
+### Tying It All Together
+So to finish off. How does the Fourier Transform work? Well we know that
+$e^{-j2\pi ft}$ can be thought of as encoding the phase and amplitude for the
+given frequency $f$ in a rotating vector. We also know that the fourier
+transform is the dot product of our signal with this rotating vector.
+
+So to sum it all up, the Fourier Transform computes how similar our signal $f(t)$ is to the frequency, and beyond that it computes the amount of similarity between our signal and the frequency $f$. So bringing it back to the equation: 
+$$
+\mathcal{F}(f) = \int^{\infin}_{-\infin}f(t)e^{-j2\pi ft} dt 
+$$
+
+The Fourier Transform says how much our signal $f(t)$ is similar to the given
+frequency $f$. That means that to find out the magnitude and phase information
+for say 1Hz we can simply substitute $f = 1$ into the equation.
+
+This gives us
+$$
+\mathcal{F}(1) = \int^{\infin}_{-\infin}f(t)e^{-j2\pi 1t} dt 
+$$
+
+which once the summing up over time is complete gives us a complex number that
+perfectly embodies how much of the signal is similar to the frequency 1Hz,
+complete with phase and amplitude information.
+
+Now summing up over infinite time seems complicated (in maths this can be done
+using calculus) however on computers, we don't have an infinite amount of a
+signal, we may only have a 2 second voice recording for example. So summing up
+over all of time consists of just going through each of the voice samples one
+by one and multiplying it with $e^{-j2\pi ft}$ adding up the result as we go.
+
+
+The only issue with this is that if we want a plot of the frequencies in a
+signal we need to iterate through all of the signal, then for each sample of
+the signal we also need to iterate through all of the frequencies we are
+checking. This makes our algorithm quite slow. You can imagine if there are
+one thousand samples then we want to check one thousand frequencies then we
+would need to do one million calculations. This is known as an $O(n^2)$
+algorithm. There is an amendment to the DFT (Discrete Fourier Transform, which
+is the Fourier Transform computers can do), known as the Fast Fourier Transform (FFT)
+which speeds this up tremendously. This is a very famous algorithm that really
+made the Fourier Transform feasible to perform in real time on devices.
+
+For more information on the FFT you can [watch this
+video by Reducible](https://youtu.be/h7apO7q16V0?si=gH-i0P07gBd7nmIx) for a great
+explanation. 
+
+For different ways to think about the Fourier Transform I can recommend
+checking out [this video by 3blue1brown](https://youtu.be/spUNpyF58BY?si=1wbRQLX1yNBEhb_K) and 
+[this video by Veritasium](https://youtu.be/nmgFG7PUHfo?si=8Ja6dokpQ8dzibJn).
+
+## Why Should We Care? 
+Apart from being a particularly beautiful piece of maths that elegantly ties
+together elements of complex numbers, Eulers formula and cross products. The
+Fourier Transform has become one of the key equations in our history. Allowing
+for incredible feats of engineering and science across numerous disciplines.
+
+The idea of visulizing each frequency of a signal as a rotating vector allows
+for some very interesting displays of the Fourier Transform. For example,
+inspired by [this 3Blue1Brown
+video](https://www.youtube.com/watch?v=r6sGWTCMz2k&t=57s), if we take a single
+line image of Henry my dog, and take the Fourier Transform of it, we can
+compute all of the frequencies in Henry (the image, the dog is far more
+complicated). If we draw a rotating vector for each of these frequencies, with
+each circle being centered on the tip of the previous rotating frequency vector
+we get the following: 
+
+TODO: Fourier Drawing 
+
+Note that you can adjust how many frequencies are drawn using the slider. Have
+a play with it and see how the less frequencies we include the less accurately
+the drawing represents the Henry signal.
+
+<br/>
+---
+<br/>
+That's it! I hope that you have enjoyed reading far too much (or not enough)
+maths and that you now feel like you have a rough understanding of the Fourier
+Transform. Thanks so much for your time and if you enjoyed please share with
+your friends. Any feedback is also much appreciated. 
+
+As always the code for all of the animations in this article can be found on my
+[GitHub here](https://github.com/James-Rhodes/foray_into_fourier).
