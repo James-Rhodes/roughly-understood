@@ -13,7 +13,7 @@ possibly one of the most important mathematical concepts to be thought up in
 the last 200 years. Today we are going to try and gain an intuitive
 understanding for what the Fourier Transform is and how it works.
 
-## What is the Fourier Transform?
+## Fourier Transform?
 Have you ever watched a music video where some element of the screen moves in
 reaction to the beats or pitches of a song? Something along the lines of 
 <a href="https://youtu.be/lcztWFC95hM?si=gEXMWw0n8dXuzP8I" target="_blank">this
@@ -150,13 +150,16 @@ previously. However, we just do this twice. For example we could multiply the
 $x$ coordinates to find out how similar the $x$'s are and multiply the $y$
 coordinates to find out how similar they are. Something like this:
 $$
-\text{similarity of }(a, b) = \begin{bmatrix} 
+\begin{split}
+& \text{similarity of }(a, b) = \begin{bmatrix} 
 x_1 \times x_2 \\
 y_1 \times y_2
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}\\ 
+&= \begin{bmatrix}
 \text{similarity of }x\text{'s}\\
 \text{similarity of }y\text{'s}
 \end{bmatrix}
+\end{split}
 $$
 
 So this is looking more promising, however, we have to now juggle two
@@ -168,9 +171,11 @@ and the similarity of the $y$'s together. That way if the x coordinates are
 very similar but the y coordinates are facing in opposite directions the scores
 of the x and y will cancel each other out. Writing this out in some maths looks like this:
 $$
-\text{similarity of }(a,b) = a \cdot b =
-\begin{bmatrix}x_1\\y_1\end{bmatrix}\cdot\begin{bmatrix}x_2\\y_2\end{bmatrix} = (x_1\times
-x_2) + (y_1\times y_2)
+\begin{split}
+&\text{similarity of }(a,b) = a \cdot b \\
+& = \begin{bmatrix}x_1\\y_1\end{bmatrix}\cdot\begin{bmatrix}x_2\\y_2\end{bmatrix} \\
+& = (x_1\times x_2) + (y_1\times y_2)
+\end{split}
 $$
 
 Some of you may have guessed this already but what we are building above is
@@ -199,9 +204,20 @@ the $y$'s multiply) and then add up the result.
 
 For example:
 $$
-a \cdot b = \begin{bmatrix}x_1\\y_1\\z_1 \\ \vdots\\ N_1 \end{bmatrix} \cdot
-\begin{bmatrix}x_2\\y_2\\z_2 \\ \vdots\\ N_2 \end{bmatrix} = (x_1 \times x_2) +
-(y_1 \times y_2) + (z_1 \times z_2) + \dots + (N_1 \times N_2) 
+\begin{split}
+a \cdot b & = \begin{bmatrix}x_1\\y_1\\z_1 \\ \vdots\\ N_1 \end{bmatrix} \cdot
+\begin{bmatrix}x_2\\y_2\\z_2 \\ \vdots\\ N_2 \end{bmatrix} 
+\end{split}
+$$
+
+Which is the same as:
+
+$$
+\begin{split}
+(x_1 \times x_2) & + (y_1 \times y_2) \\ 
+& + (z_1 \times z_2) + \dots \\
+& + (N_1 \times N_2) 
+\end{split}
 $$
 
 Pretty cool huh? So we just discovered by playing around with some numbers, a
@@ -247,27 +263,29 @@ a row for 0.1, another row for 0.001, another for 0.0000001 etc.
 
 So we could actually write out our function like this:
 $$
-f(t) = 
+\begin{split}
+f(t) & = 
 \begin{bmatrix}f(-\infin) \\ 
 \vdots \\ 
-f(-0.0001) \\ 
+f(-0.01) \\ 
 \vdots \\
 f(0) \\ 
 \vdots \\
-f(0.0001) \\ 
+f(0.01) \\ 
 \vdots \\
 f(\infin) \\ 
-\end{bmatrix} = 
+\end{bmatrix} \\& = 
 \begin{bmatrix}\sin(-\infin) \\ 
 \vdots \\ 
-\sin(-0.0001) \\ 
+\sin(-0.01) \\ 
 \vdots \\
 \sin(0) \\ 
 \vdots \\
-\sin(0.0001) \\ 
+\sin(0.01) \\ 
 \vdots \\
 \sin(\infin) \\ 
 \end{bmatrix}
+\end{split}
 $$
 
 #### **Why Are You Telling Us This?**
@@ -284,22 +302,24 @@ $$
 f(t) = 
   \begin{bmatrix}f(-\infin) \\ 
   \vdots \\ 
-  f(-0.0001) \\ 
+  f(-0.01) \\ 
   \vdots \\
   f(0) \\ 
   \vdots \\
-  f(0.0001) \\ 
+  f(0.01) \\ 
   \vdots \\
   f(\infin) \\ 
   \end{bmatrix}
-, g(t) = 
+$$
+$$
+g(t) = 
   \begin{bmatrix}g(-\infin) \\ 
   \vdots \\ 
-  g(-0.0001) \\ 
+  g(-0.01) \\ 
   \vdots \\
   g(0) \\ 
   \vdots \\
-  g(0.0001) \\ 
+  g(0.01) \\ 
   \vdots \\
   g(\infin) \\ 
   \end{bmatrix}
@@ -308,10 +328,15 @@ $$
 Then the dot product of the two functions is:
 $$
 \begin{split}
-f(t) \cdot g(t) = & (f(-\infin)\times g(-\infin)) + \dots \\
-&+ (f(-0.0001)\times g(-0.0001)) + \dots \\
-& + (f(0)\times g(0)) + \dots + (f(0.0001)\times g(0.0001)) \\
-& + \dots + (f(\infin)\times g(\infin))
+f(t) \cdot g(t) = & f(-\infin)\times g(-\infin) \\
+& + \dots \\
+& + f(-0.01)\times g(-0.01) \\
+& + \dots \\
+& + f(0)\times g(0) \\
+& + \dots \\
+& + f(0.01)\times g(0.01) \\
+& + \dots \\
+& + f(\infin)\times g(\infin)
 \end{split}
 $$
 
