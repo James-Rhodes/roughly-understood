@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
 title: "Foray Into Fourier"
-pubDate: 2024-04-27
+pubDate: 2024-05-02
 description: "The Fourier Transform. What is it and how does it work? Today we dive particularly deep into some of the maths and intuition behind one of the most useful algorithms of all time. Bonus, at the end of this article we draw my dog Henry with maths."
 tags: ["maths", "visualisation", "fundamentals"]
 ---
@@ -21,7 +21,7 @@ reaction to the beats or pitches of a song? Something along the lines of
 
 Well it turns out this is an application of the Fourier Transform. The
 discoverer (inventor?) of the Fourier Transform, Joseph Fourier, was around
-much before any music visualizers and discovered it with maths. Thats right, 
+much before any music visualizers and instead discovered it with maths. Thats right, 
 maths! Maths is the reason we have a lot of nice things in this world and
 the music visualizer is just one of them. 
 
@@ -36,9 +36,9 @@ It turns out that every signal, whether it be music, wireless data, light or
 anything, can actually be thought of as a number of frequencies added together.
 Joseph Fourier, was the first person to mathematically prove, that not just
 specific signals can be made of frequencies, but actually **all** signals are
-composed of a set of frequencies. For an overview of what I mean by frequency
-feel free to check out [my previous blog](./dopplin-around) on the Doppler
-Effect where I give a brief explanation.
+composed of a bunch of frequencies added together. For an overview of what I
+mean by frequency feel free to check out [my previous blog](./dopplin-around)
+on the Doppler Effect where I give a brief explanation.
 
 To see an example of what I mean by a signal being made up of a number of
 different frequencies. Try and have a go at building the orange signal below, by
@@ -54,7 +54,7 @@ the original orange signal.
 Now switching on or off different frequencies works but is time consuming. In
 fact, it gets worse, because it turns out that each frequency that a signal is
 made up of, has their own independent amplitudes and phases. Where the
-amplitude is how big/strong the wave/frequency is and the phase moves the wave
+amplitude is how big/strong the wave is and the phase moves the wave
 left to right. In the case of a sine wave the formula is: 
 $$
 y = A\sin(2\pi f + \phi)
@@ -105,7 +105,7 @@ very similar to 3.0.
 
 Another way we could think about similarity is the sign of the number. If $a$
 is negative and $b$ is positive, then I think it is fair to say that these two
-numbers are not very similar at all. Conversely if $a$ **and** $b$ is negative
+numbers are not very similar at all. Conversely if $a$ **and** $b$ are negative
 then the two numbers are similar. 
 
 These are just general observations though. What if we wanted a way to _score_
@@ -127,10 +127,11 @@ other is negative then we end up with poor/low similarity.
 #### **Two Dimensional Similarity**
 Okay so we now have a measure of similarity for two numbers but how can we
 extend this? For example if we had two sets of coordinate $a = (x_1, y_1)$ and
-$b = (x_2, y_2)$ then how could we possible tell how similar these coordinates
+$b = (x_2, y_2)$ then how could we possibly tell how similar these coordinates
 are to one another?
 
-You see if we think about those coordinates as vectors (just a fancy word for numbers in a row or column) and rewrote them like this: 
+You see if we think about those coordinates as vectors (just a fancy word for
+numbers in a row or column) and rewrite them like this: 
 $$
 a = \begin{bmatrix}
 x_1 \\
@@ -158,7 +159,7 @@ y_1 \times y_2
 \end{bmatrix}
 $$
 
-So this is looking more promising, however, we have to now just juggle two
+So this is looking more promising, however, we have to now juggle two
 similarity scores. This doesn't gain us anything. What we want instead is a
 single score that measures how similar the two coordinates/vectors are.
 
@@ -193,7 +194,7 @@ Okay so we can find the similarity for 1D vectors (a single number) and now for
 
 It turns out this idea generalizes really nicely. Regardless of how many
 dimensions (how big the vectors are) for $a$ and $b$ we can follow the same
-procedure. We multiply the corresponding dimension (ie. the $x$'s multply and
+procedure. We multiply the corresponding dimension (ie. the $x$'s multiply and
 the $y$'s multiply) and then add up the result.
 
 For example:
@@ -214,7 +215,8 @@ f(t) = \sin(t)
 $$
 
 Specifically says for a given value of t (which could be any number you like)
-then compute the function as the sine of that number. Here are a few examples:
+then compute the output of the function to be the sine of that number. Here are
+a few examples:
 $$
 f(0.1) = \sin(0.1)\\
 f(-0.1) = \sin(-0.1)\\
@@ -241,7 +243,7 @@ give you back $N$.
 
 A function does the same thing, except instead of having its first, second,
 ..., N'th rows, it instead has an infinite number of rows. Where there could be
-a row for 0.1, another row for 0.001, antother for 0.0000001 etc.
+a row for 0.1, another row for 0.001, another for 0.0000001 etc.
 
 So we could actually write out our function like this:
 $$
@@ -313,7 +315,9 @@ f(t) \cdot g(t) = & (f(-\infin)\times g(-\infin)) + \dots \\
 \end{split}
 $$
 
-Now unfortunately the long sequence of adding is a little cumbersome. Luckily maths has some handy notation for adding up an infinite amount of numbers. This notation is known as an integral and looks like this:
+Now unfortunately the long sequence of adding is a little cumbersome. Luckily
+maths has some handy notation for adding up an infinite amount of numbers. This
+notation is known as an integral and looks like this:
 $$
 \int^{\infin}_{-\infin} f(t) dt
 $$
@@ -321,7 +325,7 @@ $$
 This is in effect saying that for every possible value of t (from $-\infin$ to
 $\infin$), compute $f(t)$ and add all of the results together.
 
-So this means out dot product or similarity of two functions can be written as:
+So this means our dot product or similarity of two functions can be written as:
 $$
 f(t)\cdot g(t) = \int^{\infin}_{-\infin} f(t)g(t)dt
 $$
@@ -362,16 +366,17 @@ $$
 e^{-j2\pi ft} = \cos(2\pi ft) + j\sin(2\pi ft) 
 $$
 Where $f$ is the frequency of the waves, $t$ is time and the $2\pi$ term is
-just there to convert the answer into Hertz. Fun fact, this is exactly where
-the famous equation $e^{i\pi} = -1$ comes from.
+just there to convert the answer into Hertz. 
+
+Fun fact, this is exactly where the famous equation $e^{i\pi} = -1$ comes from.
 
 So in effect the e term of the Fourier Transform is encoding a frequency. The
 fun thing though is that using Eulers equation like this actually gives us the
 ability to compute phase and amplitude components as well.
 
-This is because the magic of Eulers equation and complex numbers in general
-allows for visualizing $e^{-j2\pi ft}$ as a rotating vector on the complex
-plane. An example of this can be seen in the animation below: 
+This is because the magic of Eulers equation allows for visualizing $e^{-j2\pi
+ft}$ as a rotating vector on the complex plane. This representation is known as
+a phasor. An example of this can be seen in the animation below: 
 
 
 <MacroquadCanvas id="rotating_phasor" script_path="/foray-into-fourier/rotating-phasor/mq_js_bundle.js" wasm_path="/foray-into-fourier/rotating-phasor/rotating_phasor.wasm"/>
@@ -382,14 +387,15 @@ coordinate corresponds to the cosine wave.
 
 Additionally the magnitude information can be gathered from the radius of the
 circle. The phase is simply where on the circle the rotation started from. That
-is instead of starting on the x-axis it could start at a different point on the
-circle.
+is instead of starting on the x-axis it could start at an angle to the x-axis.
+This angle is our phase.
 
 Apologies again for the hand-wavyness of this explanation but these are the key
 elements needed for the Fourier Transform.
 
 Summary:
-- The term $e^{-j2\pi ft}$ is a function that represents a spinning vector/line with a given frequency, amplitude and phase.
+- The term $e^{-j2\pi ft}$ is a function that represents a spinning vector/line
+known as a phasor with a given frequency, amplitude and phase.
 - The components can be found from complex numbers and Eulers equation
 
 ### Tying It All Together
@@ -398,7 +404,10 @@ $e^{-j2\pi ft}$ can be thought of as encoding the phase and amplitude for the
 given frequency $f$ in a rotating vector. We also know that the fourier
 transform is the dot product of our signal with this rotating vector.
 
-So to sum it all up, the Fourier Transform computes how similar our signal $f(t)$ is to the frequency, and beyond that it computes the amount of similarity between our signal and the frequency $f$. So bringing it back to the equation: 
+So to sum it all up, the Fourier Transform computes how similar our signal
+$f(t)$ is to a given frequency, and beyond that it computes the amount of
+similarity between our signal and the frequency $f$. So bringing it back to the
+equation: 
 $$
 \mathcal{F}(f) = \int^{\infin}_{-\infin}f(t)e^{-j2\pi ft} dt 
 $$
@@ -414,7 +423,9 @@ $$
 
 which once the summing up over time is complete gives us a complex number that
 perfectly embodies how much of the signal is similar to the frequency 1Hz,
-complete with phase and amplitude information.
+complete with phase and amplitude information. If the frequency 1Hz does not
+exist in our signal then this will produce simply a zero. If it does exist then
+we get all then information we need.
 
 Now summing up over infinite time seems complicated (in maths this can be done
 using calculus) however on computers, we don't have an infinite amount of a
@@ -428,7 +439,7 @@ signal we need to iterate through all of the signal, then for each sample of
 the signal we also need to iterate through all of the frequencies we are
 checking. This makes our algorithm quite slow. You can imagine if there are
 one thousand samples then we want to check one thousand frequencies then we
-would need to do one million calculations. This is known as an $O(n^2)$
+would need to do one million ($1000\times 1000$) calculations. This is known as an $O(n^2)$
 algorithm. There is an amendment to the DFT (Discrete Fourier Transform, which
 is the Fourier Transform computers can do), known as the Fast Fourier Transform (FFT)
 which speeds this up tremendously. This is a very famous algorithm that really
@@ -444,25 +455,30 @@ checking out [this video by 3blue1brown](https://youtu.be/spUNpyF58BY?si=1wbRQLX
 
 ## Why Should We Care? 
 Apart from being a particularly beautiful piece of maths that elegantly ties
-together elements of complex numbers, Eulers formula and cross products. The
+together elements of complex numbers, Eulers formula and dot products. The
 Fourier Transform has become one of the key equations in our history. Allowing
 for incredible feats of engineering and science across numerous disciplines.
 
-The idea of visulizing each frequency of a signal as a rotating vector allows
+### Henry Animation
+The idea of visualizing each frequency of a signal as a rotating vector allows
 for some very interesting displays of the Fourier Transform. For example,
 inspired by [this 3Blue1Brown
 video](https://www.youtube.com/watch?v=r6sGWTCMz2k&t=57s), if we take a single
 line image of Henry my dog, and take the Fourier Transform of it, we can
-compute all of the frequencies in Henry (the image, the dog is far more
+compute all of the frequencies in Henry (the image... The real dog is far more
 complicated). If we draw a rotating vector for each of these frequencies, with
 each circle being centered on the tip of the previous rotating frequency vector
 we get the following: 
 
-TODO: Fourier Drawing 
+<MacroquadCanvas id="fourier_epicycles" script_path="/foray-into-fourier/fourier-epicycles/mq_js_bundle.js" wasm_path="/foray-into-fourier/fourier-epicycles/fourier_epicycles.wasm"/>
 
-Note that you can adjust how many frequencies are drawn using the slider. Have
-a play with it and see how the less frequencies we include the less accurately
-the drawing represents the Henry signal.
+<br/>
+This animation has quite a few things you can play with. At first the drawing
+of Henry is going to look innacurate. If you increase the number of phasors
+drawn with the slider, you will see that the drawing of Henry becomes more and
+more accurate. Additionally, you can turn on manual drawing mode using the
+button up the top left of the animation. This will allow you to draw your own
+pictures and see the phasors that make it up.
 
 <br/>
 ---
@@ -474,3 +490,9 @@ your friends. Any feedback is also much appreciated.
 
 As always the code for all of the animations in this article can be found on my
 [GitHub here](https://github.com/James-Rhodes/foray_into_fourier).
+
+Sorry for the delay on this one, I got side-tracked creating a little animation
+library built on top of the incredible Rust library
+[Macroquad](https://macroquad.rs/). To see this library you can visit [my
+GitHub here](https://github.com/James-Rhodes/mqanim). Thats where all of the
+pretty plots for this article came from.
