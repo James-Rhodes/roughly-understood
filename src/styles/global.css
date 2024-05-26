@@ -189,3 +189,21 @@ li > ul {
     margin: 1rem 0;
   }
 }
+
+.dark blockquote {
+  background: #011d27;
+  border-left: 7px solid #1f7a8c;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+blockquote {
+  background: #eee;
+  border-left: 7px solid #1f7a8c;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+blockquote p {
+  display: inline;
+}
