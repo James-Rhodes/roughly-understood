@@ -1,0 +1,119 @@
+---
+layout: ../../layouts/MarkdownPostLayout.astro
+title: "The Internet In Too Much Detail"
+pubDate: 2024-05-02
+description: "TODO"
+tags: ["telecommunication", "fundamentals"]
+---
+import MacroquadCanvas from '../../components/MacroquadCanvas.astro';
+
+Have you ever wondered how you could send a message over the internet, have
+that message traverse the globe only to be displayed on your friends screen no
+matter how far away you are from each other? Well today, that's what we are
+exploring.
+
+I hope to take us from the application, where words turn to bits, through to
+the protocols for reliable communication and finally all the way down into the
+details of transmitting those bits through an antenna. 
+
+So with that, lets get started!
+
+## Some Context
+In order to explain how the internet works I am going to describe it from the
+perspective of a fairly common thing we all do. Sending messages to one
+another. 
+
+The idea is that we are going to follow how when you type the word "Hello" into
+a web application, that message goes from your phone, across the world wide web
+to be displayed on the screen of your friend as the simple message "Hello".
+
+Now there are lots of ways this could actually occur in practice. Each
+application could implement this differently, however we are going to just
+explore a super simple model that uses HTTP requests to send the message. This
+is **definitely** not how it is done in practice, because this requires the
+receiver of the message to have to refresh their website/app to see if a
+message has arrived. I think you will see that even this simple model
+will give us plenty to talk about.
+
+> Side note: The reason I want to write about this topic in the first place is
+> because I think it is actually incredible that any of this _actually_ works.
+> As you will see, there are so many interconnected systems that need to work in
+> perfect harmony for a simple "Hello" message to go from one place to another
+> across the globe and it's honestly a mystery that any of this works, let
+> alone so consistently.
+
+## The OSI Model
+The Open Systems Interconnection (OSI) Model is a cursed hyroglyphic that has
+plagued university students for years... If I had to go through it then, I am
+sorry, but now so do you. Unfortunately, like most things we are taught, the
+OSI Model is actually quite a useful way of thinking about communication systems.
+
+So to make the idea more concrete for those of us subjected to this model, I
+hope that by explaining the end to end of the internet within this context, it
+makes the OSI Model seem a little less obscure.
+
+So what is the OSI Model? 
+
+The OSI Model is a way about thinking about communication systems. It has 7
+different layers within the model. These include:
+
+TODO: OSI Model Picture
+- Application Layer
+- Presentation Layer
+- Session Layer
+- Transport Layer
+- Network Layer
+- Data Link Layer
+- Physical Layer
+
+Generally you can think of transmitting from one device to another as starting
+at the application layer (where the message is typed). The data is then passed
+down to the presentation layer, followed by the session layer and so on until
+we reach the physical layer.
+
+Receiving data is much the same as transmitting but just in reverse. So you
+receive some data on the physical layer, pass that up to the data link layer
+followed by the network layer and so on until it reaches the application layer
+where you can see the actual contents of the message.
+
+An important thing to note about the OSI Model is that each layer can only
+communicate with the layers directly above or directly below itself. This means
+that the physical layer cannot directly communicate with the application layer
+without first going through the data link layer etc.
+
+Now what the hell are "layers"? 
+
+You can think of each layer as a chunk of code or even some hardware that
+performs a given task. If we are reading the layers from the application layer
+down, this task is generally to add additional information or alter the
+existing data in some way. Once its processing is done, it then can give that
+data to the next layer so that it can perform its processing. This is a
+pipeline of sorts, we first perform some action at the application layer, this
+outputs some data to the presentation layer which also performs some operation
+on the data and so on until we finally hit the physical layer where we can
+actually send the data off.
+
+When we are looking at the OSI Model from the perspective of receiving some
+data the same idea applies. However, instead of adding additional data, we are
+stripping off the additional data until we get all the way back up to the
+application layer where the message can be displayed to the user.
+
+In the end I think Shrek said it best. The OSI Model is like an onion, it has
+layers. I think it goes something like that anyway...
+### Application Layer
+
+### Presentation Layer
+
+### Session Layer
+
+### Transport Layer
+
+### Network Layer
+
+### Data Link Layer
+
+### Physical Layer
+
+## And Back Again?
+
+## Summary
