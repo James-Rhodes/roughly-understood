@@ -30,7 +30,7 @@ to be displayed on the screen of your friend as the simple message "Hello".
 Now there are lots of ways this could actually occur in practice. Each
 application could implement this differently, however we are going to just
 explore a super simple model that uses HTTP requests to send the message. This
-is **definitely** not how it is done in practice, because this requires the
+is **definitely not** how it is done in practice, because this requires the
 receiver of the message to have to refresh their website/app to see if a
 message has arrived. I think you will see that even this simple model
 will give us plenty to talk about.
@@ -100,7 +100,80 @@ application layer where the message can be displayed to the user.
 
 In the end I think Shrek said it best. The OSI Model is like an onion, it has
 layers. I think it goes something like that anyway...
+
 ### Application Layer
+So we begin at the application layer. Let's set the scene. You, my dear reader
+are about to innocently try and send a message from the website you are on
+(roughly-understood.com) to the web address example.com but little do you know
+the adventure you are about to embark on (or subject yourself to, depending on
+if you like my writing style).
+
+You type out the message "Hello" and hit send... 
+
+Believe it or not, you just interacted with the application layer. The
+application layer is mostly self explanatory. It is the application! So for
+example if this website actually did have our hypothetical message sending
+capabilities, then this website roughly-understood.com would be the application
+layer you interacted with.
+
+So you may be wondering, what does the application layer actually _do_? Well it
+can do a number of things, but it's main job is to interact with the user of
+the system which in this case would be you.
+
+Okay so back to the story, you have just typed in the word "Hello". Now to the
+computer, english is pure gibberish, unfortunately our life-lacking friend (and
+I am not referring to Arch users here) is born and raised on pure binary.
+
+Computers only understand binary, yep things are either a 1 or a 0, a high or a
+low, on or off, true or false, 0 volts or 3.3 volts... However you want to
+think about it.
+
+Luckily people far smarter than us have come up with clever ways to convert
+most things into binary. For example unsigned integers we can directly convert
+(instead of thinking in base 10 we think in base 2), signed integers we have
+two's complement, floating point numbers we have a mantissa and an exponent
+(decimals numbers get crazy) and characters/letters we have a few different
+ways we could convert them to binary such as UTF-8 or ASCII. 
+
+Here are a few examples of some things converted to binary:
+- 42 -> 101010
+- 42.42 -> 01000010001010011010111000010100 (I told you decimals are crazy)
+- "Hello" -> 1001000 1100101 1101100 1101100 1101111 (In UTF-8 which happens to match ASCII)
+
+You can play with this yourself by typing into the text box below:
+
+<input type="text" id="utf-text-input"/>
+<div id="bin-string-display"></div>
+
+<script defer>{`
+  function stringToBits(theString) {
+    let textEncoder = new TextEncoder();
+    let binaryString = "";
+    textEncoder.encode(theString).forEach((num)=>{
+      binaryString += " " + num.toString(2);
+    });
+    return binaryString.trim();
+  }
+
+  const display = document.getElementById("bin-string-display");
+  const inputBox = document.getElementById("utf-text-input")
+  inputBox.addEventListener("input", () => {
+    const word = inputBox.value;
+    if (word.length > 10) {
+      // Limit to 10 chars
+      inputBox.value = word.substring(0,10);
+      return;
+    }
+    console.log(stringToBits(word));
+    display.innerHTML = stringToBits(word);
+    
+  });
+  console.log(stringToBits("Hello"));
+`}</script>
+TODO: STYLE THE ABOVE
+
+
+
 
 ### Presentation Layer
 
