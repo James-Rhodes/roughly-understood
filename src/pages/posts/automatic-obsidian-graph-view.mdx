@@ -12,23 +12,29 @@ tags:
   - software
   - rust
 ---
+import { Image } from "astro:assets";
+import obsidianImage from "../../assets/automatic-obsidian-graph-view/obsidian_graph_view.png";
+import contentMapprImage from "../../assets/automatic-obsidian-graph-view/my_graph_view.png";
+import similarityImage from "../../assets/automatic-obsidian-graph-view/similarity_in_action.png";
+
 During my PhD so far I have been typing notes... _A lot_ of notes. One of the
 tools I use to make this task more efficient/enjoyable is Obsidian (I actually
 edit the markdown in Neovim btw). Obsidian is basically a dedicated note taking
 app that has some very cool features.
 
-One of my favourite features of Obsidian
-is the ability to connect notes with links. This means if I am writing notes on
-say Carrots I could then link it to a more general note about Vegetables or
-another note explaining how to cook carrot cake could link back to the carrot
-note.
+One of my favorite features of Obsidian is the ability to link notes. For
+example, if I'm writing notes on carrots, I can link them to a general note
+about vegetables. Similarly, a note on how to cook carrot cake can link back to
+the carrot note.
 
 Obsidian even provides a very pretty view of these notes that they call the
 Graph View. This view displays notes as interconnected nodes, where each node
 represents a note file and each link represents the links you specify within
 the notes.
 
-![A screen shot of my Obsidian Graph View](../../assets/automatic-obsidian-graph-view/obsidian_graph_view.png)
+<div class="flex justify-center mt-10">
+  <Image src={obsidianImage} alt="A screen shot of my Obsidian Graph View" />
+</div>
 
 This feature is incredible except for the fact that it relies on one very
 important factor... That I am actually going to remember to make the link.
@@ -85,12 +91,12 @@ The run length encoded string only takes up 8 characters meaning we have saved
 ourselves 2 characters worth of memory, while still representing the same
 information.
 
-A program when we want to "decompress" this run length encoded string can
+A program, when we want to "decompress" this run length encoded string, can
 simply transform something like 4a into aaaa and we will get back our original
 data.
 
 This is one key component of compression algorithms. If we compress a file then
-decompress it, can we get back the same information. There are some compression
+decompress it, can we get back the same information? There are some compression
 algorithms such as JPEG (yep the same one from images) that are lossy and
 intentionally _don't_ give back the exact same information after decompression.
 This trade off allows for JPEG to **very** aggressively compress the image.
@@ -110,14 +116,14 @@ what we are going to use.
 
 ### Kolmogo-Who?
 
-Okay so we know how/what compression is now.
+Okay so we know what compression is now.
 
 The paper that I discussed earlier uses a very important concept called
 Kolmogorov complexity to justify why the particular algorithm works.
 
 The [Kolmogorov
 complexity](https://en.wikipedia.org/wiki/Kolmogorov_complexity) of an object
-such as a file for a completely not foreshadowing reason is basically the
+such as a file (for a completely _not_ foreshadowing reason) is basically the
 shortest computer program that can be used to represent that file. So for
 example our run length encoding example from earlier would have low Kolmogorov
 complexity. Where as a string of random characters would have a higher
@@ -135,7 +141,7 @@ the Kolmogorov complexity perfectly.
 
 ### Similarity Is A Distance?
 
-Using Kolmogorov complexity a bunch of smart people have come up with a method
+Using Kolmogorov complexity, a bunch of smart people have come up with a method
 to compute the distance between two pieces of information. This distance can be
 interpreted as a similarity. Where the closer the two pieces of information
 are, the more similar they are and the further apart the more disimilar they
@@ -150,6 +156,7 @@ Kolmogorov complexity and normalizing.
 This is coined the Normalized Compressed Distance (NCD). This is calculated as follows:
 
 $$
+\footnotesize
 NCD(x, y) = \frac{C(xy) - \min(C(x), C(y))}{\max(C(x), C(y))}
 $$
 
@@ -178,7 +185,8 @@ $$
 y = aaaa
 $$
 
-These files are perfectly similar, so if we compress $xy$ using our run length encoding for a simple example we would get the following:
+These files are perfectly similar, so if we compress $xy$ using our run length
+encoding for a simple example we would get the following:
 
 $$
 C(x y) = C(aaaaaaaa)
@@ -227,7 +235,10 @@ $$
 Which yields
 
 $$
-C(xy) = C(aaaaaabb) = \text{length}(6a2b) = 4
+\begin{split}
+C(xy) & = C(aaaaaabb) \\
+& = \text{length}(6a2b) = 4
+\end{split}
 $$
 
 $$
@@ -248,7 +259,95 @@ Which basically says that they aren't exactly similar but partly similar.
 
 ### Piecing It Together
 
+So now that we have a method of quantitatively measuring the similarity between
+two files, we can finally get on to my idea. I basically wanted to try and
+recreate Obsidian's graph view by automatically creating links between the top
+$n$ files that are most similar to whatever file we are looking at.
+
+I decided to write this project in Rust (btw) and used
+[Axum](https://github.com/tokio-rs/axum) to serve a web page that displays the
+graph view using [p5.js](https://p5js.org/). I named the project content
+mapp-rs.
+
+So the main steps were as follows:
+
+1. Recursively search through all of the files in the current directory
+   (respecting .gitignores).
+2. Gather up all of the paths for the files.
+3. For every combination of file paths compute the NCD.
+4. Remember the $n$ closest/most similar files to whatever file we are
+   currently on. This means they have the smallest NCD.
+5. Turn that into JSON so our front end can make a GET request for it (yes I
+   used polling... Not ideal but good enough)
+6. Draw all of the file connections\
+   \
+   The actual node drawing and physics around how the files move in the browser
+   was adapted heavily from a lot of the concepts found in [The Nature of Code by
+   Daniel Shiffman](https://natureofcode.com/) who is absolutely amazing if you
+   are interested in anything creative coding.
+
 ### Oh The Details
 
+The code was implemented after performing some basic optimizations.
+However unfortunately it was still a little slow for my liking.
+
+In order to improve the processing time I implemented a caching strategy, where
+instead of computing the Gzip for every single file every time, we instead
+remember how long a compressed file was. If that comes up again in future
+computations we can then reuse the value.
+
+While I was already implementing a cache I also cached the date that the file
+was last modified and decided to save the cache to a file. This allowed me to
+only rerun the algorithm on files that had actually changed recently or on
+files that had recently been added. The web server then polls asking for any
+updated files and redraws them to the screen if any have changed.
+
+Then as my last ditch effort I decided to simply throw more compute at it, I
+was done trying to come up with clever optimization so now was the time to just
+brute force it. I sprinkled some parallel computing in there using the amazing
+Rayon library and just like that I was mostly happy with the performance.
+
 ## Results
+
+The final product ended up looking like this
+
+<div class="flex justify-center mt-10">
+  <Image src={contentMapprImage} alt="The graph view from content mapprs" />
+</div>
+
+This obviously isn't quite as pretty as the Obsidian version but I like it.
+
+It seems to work fairly well too! For example:
+
+<div class="flex justify-center mt-10">
+  <Image
+    src={similarityImage}
+    alt="Content Mapp rs automatically detecting similarity"
+  />
+</div>
+
+As you can see it correctly identifies that Correlation Matrix, Autocorrelation Matrix,
+Rank, Covariance Matrix, Gram Matrix and Positive Definite Matrix are all related
+in some way. Even though I am fairly certain the similarity is mainly based around
+the use of the word matrix.
+
+## Improvements
+
+Because this algorithm is purely based on compression, there is no semantic
+analysis. This basically means that all NCD's are computed based purely on how
+similar the _words_ in one file are to the _words_ in another file. This isn't
+how a human would measure similarity though. A human would look at the content
+of the words, what the words actually mean, and decide how similar the two files
+are based on that. For example this algorithm could potentially see two files
+where one describes lead poisoning, and another that describes dog leads as
+being similar. Purely because they both contain the word lead a lot. Even
+though as a human we know that lead and lead are two different words (english
+is fun).
+
+With that being said though, I am very happy with this project and it was a lot
+of fun for a short project. I hope you all have enjoyed reading about it!
+
+The code for this project can be found on GitHub at [Content
+Mapp-rs](https://github.com/James-Rhodes/content-mapp-rs). If you have any
+questions please feel free to open an issue on GitHub.
 
