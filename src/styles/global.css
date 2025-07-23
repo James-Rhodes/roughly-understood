@@ -35,6 +35,7 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
+  border-radius: 10px;
 }
 
 .nav-links a:hover,
