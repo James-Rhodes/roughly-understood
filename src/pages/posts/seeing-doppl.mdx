@@ -1,0 +1,57 @@
+---
+layout: ../../layouts/MarkdownPostLayout.astro
+title: "Seeing Doppl"
+pubDate: 2025-07-23
+description: "The Doppler effect, round two: electric boogaloo. This post builds on my previous blog about the Doppler effect and gives an intuitive understanding of how it appears in real-world situations—visualized via animation."
+tags: ["maths", "visualisation", "fundamentals"]
+---
+import MacroquadCanvas from '../../components/MacroquadCanvas.astro';
+
+## Why Write About This Again? 
+Look, I will admit it. It has been well over a year since my last post... My bad. Life gets busy but hey here we are. As my stumbling (dare I say, grand?) re-entry into this blog I thought I would begin by addressing some questions that I felt were unanswered from my previous blog post [Dopplin Around](/posts/dopplin-around). So if you have not read that yet, I would recommend starting there before reading this one. 
+
+## Doppler... But With Maths
+So the Doppler effect always kind of bothered me. I was told in high school that if a sound bounces off, or is emitted from, something that is moving relative to your ears, then the frequency will change. I could certainly accept this. Hell I even memorised the formulas, but I still felt that an intuitive understanding of "but why does the frequency change?" was missing.
+
+Now onto the formulas. Rather than showing the kind of scary (but not too scary) actual Doppler effect formulas I am going to show you the approximation that is commonly used when the velocity of the source/receiver is small relative to the speed the wave travels. So for example if the source is a car with headlights on, and the receiver is a deer, then obviously the deer and car move **a lot** slower than the speed of light. So this approximation holds. 
+
+The same intuition works for other scenarios such as with sound, it is just that to get an exact answer, a more complicated formula is needed. This one will still get you close to the correct answer though. So moving on to the actual maths. 
+
+$$
+f = \Big(1 + \frac{\Delta v}{v_\text{w}}\Big)f_0
+$$
+
+Where $\Delta v = v_\text{s} - v_\text{r}$ is the relative velocity between the source and receiver. So, for example if you are stationary and an ambulance is driving towards you at 50m/s then the relative velocity is 50m/s. $v_\text{w}$ is the velocity of the wave, so for the previous example that would be the speed of sound. Finally, $f_0$ is the frequency that was emitted from the source. So if a siren for the ambulance is transmitted at a constant 50Hz then this would be $f_0$. The received frequency $f$ will be altered based on the above formula.
+
+The reason I like this approximation is because it shows fairly intuitively the relationship between relative motion and how we can expect the frequency to change. For example if we expand the brackets: 
+$$
+f = f_0 + \frac{\Delta v}{v_\text{w}}f_0
+$$
+
+You can see that our received frequency $f$ will be the same as the transmitted frequency $f_0$ plus a fudge factor that is a ratio between the relative velocity and the speed of the wave multiplied by $f_0$. That explains what the frequency shift will be. But why does it happen?
+
+## The Ambulance Siren's Pitch
+
+Okay so in [Dopplin Around](/posts/dopplin-around) I describe sound travelling towards you as paint ball bullets. Where if you run towards the paint ball gun then they will hit you more quickly. If you run away then they will hit you more slowly. I stand by this analogy but I think that it doesn't intuitively show why when a car drives by, you hear the "VroooOOOoomm" noise. Similarly with an ambulance siren. As an ambulance drives past, you can hear the pitch go from a higher pitch to a lower pitch. 
+
+As sound waves travel, they have a pressure that changes over time and over a distance (space). If we imagine a discrete sound as a ball being transmitted from the ambulance towards your ear, we could visualise the pressure of that sound packet as a colour, where red depicts a negative pressure and green depicts a positive pressure. The animation below recreates this situation.
+
+<MacroquadCanvas id="ambo_driveby" script_path="/seeing-doppl/ambo_driveby/mq_js_bundle.js" wasm_path="/seeing-doppl/ambo_driveby/ambo_driveby.wasm"/>
+> You can hit "r" to restart or wait and it will automatically restart
+
+On the left plot you can see the waveform that was transmitted as the siren of the ambulance. On the right you can see the waveform that was received by the ear. It is important to note that each circle of sound travels at a constant speed. 
+
+You will notice that as the ambulance travels towards the ear, the sound that is emitted doesn't have to travel as far. This is because the ambulance is doing a little bit of the travelling for it. So one sound is emitted, then some time later, another one is emitted. However between the first and second sound the ambulance has moved closer to the ear. This means that the second sound doesn't have to travel quite as far. This gives an intuitive sense of why the wavefronts compress in the direction of motion and is why you can observe a higher frequency received by the ear.
+
+The exact same thing happens when the ambulance moves away from the ear. Just in reverse. So the sounds have to travel further and further as the ambulance moves away from the ear, leading to the "stretching" out of wavefronts behind the moving emitter. I think watching the animation a few times can really help to cement this concept, especially seeing the visible frequency change as the ambulance moves past the ear. 
+
+## Doppler for Speeding Tickets
+Another common use case for the Doppler effect is measuring the speed of moving objects. If we transmit light for example with a radar towards a car. As the light bounces off the car, we can imagine the individual packets of light don't have to travel quite as far as the vehicle approaches the radar, similarly to sound. Now this is not completely true for light because it's a relativistic effect and gets all Einstein-ish but the intuition is similar. 
+
+<MacroquadCanvas id="radar" script_path="/seeing-doppl/radar/mq_js_bundle.js" wasm_path="/seeing-doppl/radar/radar.wasm"/>
+> You can hit "r" to restart or wait and it will automatically restart
+
+You can see that on the left we have a plot of the transmitted light, and on the right we have the light that is received after bouncing off the car. In the same manner to the ambulance example, because the car is moving towards the radar, we observe a higher frequency than what was originally transmitted. This can then be used to compute the velocity of the car using the formula from the beginning of this post. 
+
+## Conclusion
+Well there we go, another post on the Doppler effect. I hope you enjoyed the animations as much as I enjoyed making them. I think that seeing these things function can really make the maths seem a bit less scary. Thanks so much for your time! Fingers crossed it's not another year before my next post :)
