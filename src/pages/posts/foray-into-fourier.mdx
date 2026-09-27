@@ -48,7 +48,7 @@ you is to find the frequencies that make the blue wave perfectly overlap the
 white one. These frequencies can be thought of as the frequencies that make up
 the original orange signal.
 
-<MacroquadCanvas id="adding_sines" script_path="/foray-into-fourier/adding-sines/mq_js_bundle.js" wasm_path="/foray-into-fourier/adding-sines/adding_sines.wasm"/>
+<MacroquadCanvas id="adding_sines" src="foray-into-fourier/adding-sines" />
 
 <br/>
 Now switching on or off different frequencies works but is time consuming. In
@@ -62,7 +62,7 @@ $$
 Where $f$ is the frequency, $A$ is the amplitude and $\phi$ is the phase shift.
 You can have a go of playing around with these parameters below.
 
-<MacroquadCanvas id="amplitude_and_phase" script_path="/foray-into-fourier/amplitude-and-phase/mq_js_bundle.js" wasm_path="/foray-into-fourier/amplitude-and-phase/amplitude_and_phase.wasm"/>
+<MacroquadCanvas id="amplitude_and_phase" src="foray-into-fourier/amplitude-and-phase" />
 
 As you can probably see, manually trying to decide what frequencies exist in a
 signal along with their respective amplitudes and phases is too much to do
@@ -122,7 +122,7 @@ you can see that when the numbers are both positive then they are similar. If
 both numbers are negative then they are similar, but if one is positive and the
 other is negative then we end up with poor/low similarity.
 
-<MacroquadCanvas id="one_dim_similarity" script_path="/foray-into-fourier/one-dim-similarity/mq_js_bundle.js" wasm_path="/foray-into-fourier/one-dim-similarity/one_dim_similarity.wasm"/>
+<MacroquadCanvas id="one_dim_similarity" src="foray-into-fourier/one-dim-similarity" />
 
 #### **Two Dimensional Similarity**
 Okay so we now have a measure of similarity for two numbers but how can we
@@ -191,7 +191,7 @@ Maths and words can be kind of hard to get right so
 I have made a little animation below where you can move the point $a$ around to
 see how similar it is to $b$ calculated the same formula we came up with above.
 
-<MacroquadCanvas id="two_dim_similarity" script_path="/foray-into-fourier/two-dim-similarity/mq_js_bundle.js" wasm_path="/foray-into-fourier/two-dim-similarity/two_dim_similarity.wasm"/>
+<MacroquadCanvas id="two_dim_similarity" src="foray-into-fourier/two-dim-similarity" />
 
 #### **N Dimensional Similarity**
 Okay so we can find the similarity for 1D vectors (a single number) and now for
@@ -404,7 +404,7 @@ ft}$ as a rotating vector on the complex plane. This representation is known as
 a phasor. An example of this can be seen in the animation below: 
 
 
-<MacroquadCanvas id="rotating_phasor" script_path="/foray-into-fourier/rotating-phasor/mq_js_bundle.js" wasm_path="/foray-into-fourier/rotating-phasor/rotating_phasor.wasm"/>
+<MacroquadCanvas id="rotating_phasor" src="foray-into-fourier/rotating-phasor" />
 
 You can see that the rotating line moves at a speed that matches our frequency
 $f$. Notice that the x coordinate corresponds to the sine wave and the y
@@ -495,7 +495,7 @@ complicated). If we draw a rotating vector for each of these frequencies, with
 each circle being centered on the tip of the previous rotating frequency vector
 we get the following: 
 
-<MacroquadCanvas id="fourier_epicycles" script_path="/foray-into-fourier/fourier-epicycles/mq_js_bundle.js" wasm_path="/foray-into-fourier/fourier-epicycles/fourier_epicycles.wasm"/>
+<MacroquadCanvas id="fourier_epicycles" src="foray-into-fourier/fourier-epicycles" />
 
 <br/>
 This animation has quite a few things you can play with. At first the drawing

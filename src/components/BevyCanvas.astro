@@ -1,26 +1,27 @@
 ---
-let { id, script_path, alt } = Astro.props;
-
-if (import.meta.env.DEV) {
-    // This feels like a gross work around but oh well
-    script_path = "/public" + script_path;
-}
+let { id, src, alt } = Astro.props;
 ---
 
-<!-- Store the message prop as a data attribute. -->
-<bevy-canvas load data-id={id} data-script_path={script_path}>
+<!-- `src` points at a folder inside src/assets/bevy, e.g. "dopplin-around",
+     holding a wasm-bindgen JS glue file together with its .wasm file. -->
+<bevy-canvas load data-id={id} data-src={src}>
     <canvas
         id={id}
         width="366"
         height="206"
         tabindex="0"
         data-raw-handle="1"
-        alt={alt}
+        aria-label={alt}
     >
     </canvas>
 </bevy-canvas>
 
 <script>
+    // Bundles are imported lazily through Vite so the glue is bundled and
+    // hashed. Vite also resolves the `new URL("..._bg.wasm", import.meta.url)`
+    // reference inside the glue to the emitted wasm asset.
+    const bundles = import.meta.glob("../assets/bevy/**/*.js");
+
     class BevyCanvas extends HTMLElement {
         constructor() {
             super();
@@ -31,10 +32,20 @@ if (import.meta.env.DEV) {
             });
 
             (async () => {
-                const { default: init } = await import(
-                    /* @vite-ignore */
-                    this.dataset.script_path
-                );
+                const dir = `../assets/bevy/${this.dataset.src.replace(/\/$/, "")}`;
+                const loadBundle = Object.entries(bundles).find(
+                    ([path]) =>
+                        path.startsWith(`${dir}/`) && path.endsWith(".js"),
+                )?.[1];
+
+                if (!loadBundle) {
+                    console.error(
+                        `BevyCanvas: no bundle found for "${this.dataset.src}"`,
+                    );
+                    return;
+                }
+
+                const { default: init } = await loadBundle();
 
                 init().catch((error) => {
                     if (

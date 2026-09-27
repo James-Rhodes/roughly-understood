@@ -36,7 +36,7 @@ Okay so in [Dopplin Around](/posts/dopplin-around) I describe sound travelling t
 
 As sound waves travel, they have a pressure that changes over time and over a distance (space). If we imagine a discrete sound as a ball being transmitted from the ambulance towards your ear, we could visualise the pressure of that sound packet as a colour, where red depicts a negative pressure and green depicts a positive pressure. The animation below recreates this situation.
 
-<MacroquadCanvas id="ambo_driveby" script_path="/seeing-doppl/ambo_driveby/mq_js_bundle.js" wasm_path="/seeing-doppl/ambo_driveby/ambo_driveby.wasm"/>
+<MacroquadCanvas id="ambo_driveby" src="seeing-doppl/ambo_driveby" />
 > You can hit "r" to restart or wait and it will automatically restart
 
 On the left plot you can see the waveform that was transmitted as the siren of the ambulance. On the right you can see the waveform that was received by the ear. It is important to note that each circle of sound travels at a constant speed. 
@@ -48,7 +48,7 @@ The exact same thing happens when the ambulance moves away from the ear. Just in
 ## Doppler for Speeding Tickets
 Another common use case for the Doppler effect is measuring the speed of moving objects. If we transmit light for example with a radar towards a car. As the light bounces off the car, we can imagine the individual packets of light don't have to travel quite as far as the vehicle approaches the radar, similarly to sound. Now this is not completely true for light because it's a relativistic effect and gets all Einstein-ish but the intuition is similar. 
 
-<MacroquadCanvas id="radar" script_path="/seeing-doppl/radar/mq_js_bundle.js" wasm_path="/seeing-doppl/radar/radar.wasm"/>
+<MacroquadCanvas id="radar" src="seeing-doppl/radar" />
 > You can hit "r" to restart or wait and it will automatically restart
 
 You can see that on the left we have a plot of the transmitted light, and on the right we have the light that is received after bouncing off the car. In the same manner to the ambulance example, because the car is moving towards the radar, we observe a higher frequency than what was originally transmitted. This can then be used to compute the velocity of the car using the formula from the beginning of this post. 

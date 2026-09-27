@@ -5,24 +5,21 @@ import ThemeIcon from "./ThemeIcon.astro";
 ---
 
 <header>
-    <nav>
-        <div class="flex items-center flex-grow my-6">
-            <Hamburger />
-            <h1 class="main-header">Roughly Understood</h1>
-            <Navigation />
-        </div>
-        <ThemeIcon />
-    </nav>
+    <div class="header-bar">
+        <Hamburger />
+        <h1 class="main-header">Roughly Understood</h1>
+        <Navigation />
+    </div>
+    <ThemeIcon />
 </header>
 
 <style>
     header {
-        background-color: #1f7a8c;
-    }
-
-    nav {
+        position: relative;
+        z-index: 50;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background-color: #1f7a8c;
     }
 </style>

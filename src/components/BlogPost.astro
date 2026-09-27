@@ -5,8 +5,8 @@ const pubDateString = new Date(pubDate);
 pubDate = pubDateString.toDateString();
 ---
 
-<div class="border-2 border-solid p-1 px-5 my-3" id="post-container">
-    <a href={url} id="unhighlighted">
+<div class="border-2 border-solid border-gray-200 p-1 px-5 my-3">
+    <a href={url}>
         <h3>{title}</h3>
     </a>
     <div class="flex flex-wrap gap-x-5">
@@ -18,10 +18,8 @@ pubDate = pubDateString.toDateString();
     <div class="mt-5">
         <p>{description}</p>
     </div>
-    <a href={url} id="unhighlighted">
-        <button class="p-2 rounded-xl bg-green mb-1" id="read-more"
-            >Read more</button
-        >
+    <a href={url} class="read-more inline-block p-2 rounded-xl mb-1">
+        Read more
     </a>
 </div>
 
@@ -29,19 +27,19 @@ pubDate = pubDateString.toDateString();
     a {
         color: unset;
     }
-    a.dark {
-        color: unset;
-    }
     h3 {
         margin-bottom: 0;
     }
 
-    #unhighlighted {
-        color: unset;
-    }
-
-    #read-more {
+    .read-more {
         background: #1f7a8c;
         color: white;
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+    }
+
+    .read-more:hover {
+        background: #176271;
+        text-decoration: none;
     }
 </style>

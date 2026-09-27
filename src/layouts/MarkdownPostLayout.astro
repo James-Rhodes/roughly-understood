@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import Tags from "../components/Tags.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import "katex/dist/katex.min.css";
 
 const { frontmatter, headings } = Astro.props;
 
@@ -10,12 +11,6 @@ const pubDate = pubDateString.toDateString();
 ---
 
 <BaseLayout pageTitle={frontmatter.title} description={frontmatter.description}>
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css"
-        integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM"
-        crossorigin="anonymous"
-    />
     <div>
         <div>{pubDate}</div>
         <Tags tags={frontmatter.tags} inLine />

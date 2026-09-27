@@ -2,8 +2,13 @@
 
 ---
 
-<button id="themeToggle" class="mr-6">
-    <svg width="40px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<button
+    id="themeToggle"
+    class="mr-6"
+    type="button"
+    aria-label="Toggle dark mode"
+>
+    <svg width="40px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
         <path
             class="sun"
             fill-rule="evenodd"
@@ -21,6 +26,13 @@
     #themeToggle {
         border: 0;
         background: none;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    #themeToggle:hover {
+        background-color: rgb(255 255 255 / 0.14);
     }
     .sun {
         fill: white;
