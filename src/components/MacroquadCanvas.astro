@@ -3,8 +3,9 @@ let { id, src, alt } = Astro.props;
 ---
 
 <!-- `src` points at a folder inside src/assets/macroquad, e.g.
-     "foray-into-fourier/adding-sines", holding a Macroquad-produced
-     mq_js_bundle.js together with its .wasm file. -->
+     "foray-into-fourier/adding-sines", holding the animation's .wasm file.
+     The shared mq_js_bundle.js lives in the root of that folder and drives
+     every canvas on the site. -->
 <mquad-canvas load data-id={id} data-src={src}>
     <canvas
         id={id}
@@ -18,39 +19,34 @@ let { id, src, alt } = Astro.props;
 </mquad-canvas>
 
 <script>
-    // Bundles are imported lazily through Vite so they get bundled, hashed and
-    // served like any other module instead of being fetched from public/.
-    const bundles = import.meta.glob("../assets/macroquad/**/*.js");
+    // One shared bundle serves every canvas: each load() call creates its own
+    // independent instance (WebGL context, wasm memory and event handlers),
+    // so only the wasm has to be resolved per animation.
+    import { load } from "../assets/macroquad/mq_js_bundle.js";
+
     const wasmFiles = import.meta.glob("../assets/macroquad/**/*.wasm", {
         query: "?url",
         import: "default",
         eager: true,
     });
 
-    const findFile = (files, dir, extension) =>
-        Object.entries(files).find(
-            ([path]) => path.startsWith(`${dir}/`) && path.endsWith(extension),
-        )?.[1];
-
     class MacroquadCanvas extends HTMLElement {
         constructor() {
             super();
 
-            (async () => {
-                const dir = `../assets/macroquad/${this.dataset.src.replace(/\/$/, "")}`;
-                const loadBundle = findFile(bundles, dir, ".js");
-                const wasmUrl = findFile(wasmFiles, dir, ".wasm");
+            const dir = `../assets/macroquad/${this.dataset.src.replace(/\/$/, "")}`;
+            const wasmUrl = Object.entries(wasmFiles).find(([path]) =>
+                path.startsWith(`${dir}/`),
+            )?.[1];
 
-                if (!loadBundle || !wasmUrl) {
-                    console.error(
-                        `MacroquadCanvas: no bundle or wasm found for "${this.dataset.src}"`,
-                    );
-                    return;
-                }
+            if (!wasmUrl) {
+                console.error(
+                    `MacroquadCanvas: no wasm found for "${this.dataset.src}"`,
+                );
+                return;
+            }
 
-                const lib = await loadBundle();
-                lib.load(wasmUrl);
-            })();
+            load(wasmUrl, this.dataset.id);
         }
     }
 
