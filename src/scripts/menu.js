@@ -1,5 +1,6 @@
 const toggle = document.querySelector(".hamburger");
 const menu = document.querySelector("#site-nav");
+const scrim = document.querySelector(".nav-scrim");
 
 if (toggle && menu) {
   const desktop = window.matchMedia("(min-width: 780px)");
@@ -8,6 +9,7 @@ if (toggle && menu) {
 
   const setOpen = (open) => {
     menu.classList.toggle("is-open", open);
+    scrim?.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   };
