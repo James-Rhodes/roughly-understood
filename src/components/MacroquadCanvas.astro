@@ -30,6 +30,9 @@ let { id, src, alt } = Astro.props;
         eager: true,
     });
 
+    // How far outside the viewport a canvas may be before it starts loading.
+    const PRELOAD_MARGIN = "400px 0px";
+
     class MacroquadCanvas extends HTMLElement {
         constructor() {
             super();
@@ -46,7 +49,24 @@ let { id, src, alt } = Astro.props;
                 return;
             }
 
-            load(wasmUrl, this.dataset.id);
+            const start = () => load(wasmUrl, this.dataset.id);
+
+            // Compiling the wasm and creating the WebGL context is the
+            // expensive part, so wait until the canvas is (nearly) on screen.
+            if (typeof IntersectionObserver === "undefined") {
+                start();
+                return;
+            }
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    if (!entries.some((entry) => entry.isIntersecting)) return;
+                    observer.disconnect();
+                    start();
+                },
+                { rootMargin: PRELOAD_MARGIN },
+            );
+            observer.observe(this);
         }
     }
 
